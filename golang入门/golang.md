@@ -1,5 +1,14 @@
 ### 第一个程序：打印Hello World!
 
+Go 语言的基础组成有以下几个部分：
+
+- 包声明
+- 引入包
+- 函数
+- 变量
+- 语句 & 表达式
+- 注释
+
 ```go
 package main
 
@@ -398,4 +407,121 @@ func update(arr [5]int) {
 
 
 ### 切片
+
+**golang中切片本身是没有值的，它是对底层数组的一个view，即一个视图**
+
+```go
+arr := [...]int{0, 1, 2, 3, 4, 5, 6, 7}
+s1 = arr[2:6] // 数组下标[2, 6)的元素的视图，即 {2, 3, 4, 5, 6}
+s2 = arr[:6]// 数组下标[0, 6)的元素的视图，即 {2, 3, 4, 5, 6}
+s3 = arr[2:]// 数组下标[2, 7)的元素的视图，即 {2, 3, 4, 5, 6, 7}
+s4 = arr[:]// 数组的全部元素的一个视图，即 {1, 2, 3, 4, 5, 6, 7}
+
+s2 = s2[:3]// 对切片进行reslice，即 {2, 3, 4}
+s2 = s2[1:]// 再进行reslice，即 {3, 4}
+
+// 切片作为函数参数传递时，不会进行拷贝，而是作为底层数组的一个view传入，所以在函数内部修改切片会改变数组元素的值
+func main() {
+	arr := [...]int{1, 2, 3, 4, 5}
+    update(arr[:])
+
+	fmt.Println(arr)
+}
+
+func update(arr []int) {
+	arr[0] = 100
+}
+// 打印结果为 100, 2, 3, 4, 5，证明以上说法是对的
+```
+
+#### 切片的扩展
+
+![1556171155754](C:\Users\hangge\AppData\Roaming\Typora\typora-user-images\1556171155754.png)
+
+![1556171040142](C:\Users\hangge\AppData\Roaming\Typora\typora-user-images\1556171040142.png)
+
+- arr为{0, 1, 2, 3, 4, 5, 6}, s1为{2, 3, 4, 5}, s2为{5, 6}
+- slice可以向后扩展，但是不能向前扩展
+- s[i]的i不可以超越len(s)，向后扩展不可以超过cap(s)
+
+#### 切片的其他操作
+
+**append() 和 copy() 函数**
+
+如果想增加切片的容量，我们必须创建一个新的更大的切片并把原分片的内容都拷贝过来。
+
+```go
+func main() {
+   var numbers []int
+   printSlice(numbers)
+
+   /* 允许追加空切片 */
+   numbers = append(numbers, 0)
+   printSlice(numbers)
+
+   /* 向切片添加一个元素 */
+   numbers = append(numbers, 1)
+   printSlice(numbers)
+
+   /* 同时添加多个元素 */
+   numbers = append(numbers, 2,3,4)
+   printSlice(numbers)
+
+   /* 创建切片 numbers1 是之前切片的两倍容量*/
+   numbers1 := make([]int, len(numbers), (cap(numbers))*2)
+
+   /* 拷贝 numbers 的内容到 numbers1 */
+   copy(numbers1,numbers)
+   printSlice(numbers1)   
+}
+
+func printSlice(x []int){
+   fmt.Printf("len=%d cap=%d slice=%v\n",len(x),cap(x),x)
+}
+
+/**
+	打印结果为
+	len=0 cap=0 slice=[]
+    len=1 cap=1 slice=[0]
+    len=2 cap=2 slice=[0 1]
+    len=5 cap=6 slice=[0 1 2 3 4]
+    len=5 cap=12 slice=[0 1 2 3 4]
+*/
+```
+
+### Map
+
+golang中的Map是通过hash表实现的，可以使用内建函数 make 也可以使用 map 关键字来定义 Map，如果不初始化 map，那么就会创建一个 nil map。
+
+```go
+func main() {
+    var m map[string]string // nil
+    m2 := make(map[string]string) // empty map
+    m3 := map[string]string {
+        "France": "Paris",
+        "Italy": "罗马",
+        "Japan": "东京",
+        "India": "新德里"
+    }
+
+    // 使用range进行遍历
+    for k, v := range countryCapitalMap {
+        fmt.Println(k, "首都是", v)
+    }
+
+    // 查看元素在集合中是否存在
+    capital, ok := countryCapitalMap[ "美国" ]
+    if (ok) {
+        fmt.Println("美国的首都是", capital)
+    } else {
+        fmt.Println("美国的首都不存在")
+    }
+    
+    // 打印结果为“美国的首都不存在”
+}
+```
+
+- map使用了hash表，所以键值必须可以比较相等
+- 除了slice，map，function以外的内建类型都可以作为key
+- Struct类型不包含slice，map，function类型字段的话，也可以作为key
 
