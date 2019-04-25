@@ -39,3 +39,23 @@ a, b, c, d := 3, 4, true, "abc"
 
 
 
+### 内建变量类型
+
+- bool、string
+- (u)int（长度由操作系统决定）, (u)int8, (u)int16, (u)int32, (u)int64, uintptr（指针类型）
+- byte、rune（长度为4字节的字符类型）
+- float32、float64、complex64（实部虚部各32位的复数）、complex128（实部虚部各64位的复数）
+
+**golang中只有强制类型转换**
+
+```go
+// 求直角三角形斜边长度
+func triangle() {
+	a, b := 3, 4
+    // a*a + b*b 为int类型，math.Sqrt()参数类型为float64，需要通过float64(xxx)进行强制类型转换
+    // c类型为int，math.Sqrt()返回值为float64,需要通过int(xxx)进行强制类型转换
+	var c int = int(math.Sqrt(float64(a*a + b*b)))
+	fmt.Println(c)
+}
+```
+
