@@ -242,3 +242,75 @@ func forever() {
 }
 ```
 
+
+
+### 函数
+
+**golang中的函数可以有多个返回值，返回值也可以起名字**
+
+```go
+// 带余除法
+func divfunc div(a, b int) (q, r int) {
+	return a / b, a % b
+}
+
+// 运算操作
+func eval(a, b int, op string) (int, error) {
+	switch op {
+	case "+":
+		return a + b, nil
+	case "-":
+		return a - b, nil
+	case "*":
+		return a * b, nil
+	case "/":
+		return a / b, nil
+	default:
+		return 0, fmt.Errorf(
+			"unsupported operation: %s", op)
+	}
+}
+```
+
+**golang中函数也可以作为函数的参数**
+
+```go
+// 定义一个函数apply，第一个参数为一个函数func，后面两个参数为int类型整数
+// reflect.ValueOf(op).Pointer()语句可以获取func函数的指针
+// 接着可以通过p获取函数func的其他信息，runtime.FuncForPC(p).Name()获取函数名称
+func apply(op func(int, int) int, a, b int) int {
+	p := reflect.ValueOf(op).Pointer()
+	opName := runtime.FuncForPC(p).Name()
+	fmt.Printf("Calling function %s with args (%d, %d)\n", opName, a, b)
+	return op(a, b)
+}
+
+func pow(a, b int) int {
+	return int(math.Pow(float64(a), float64(b)))
+}
+
+func main {
+    // 传入匿名函数进行apply函数的调用
+    fmt.Println(apply(
+    func(a, b int) int {
+        return int(math.Pow(float64(a), float64(b)))
+    }, 3, 4))
+    
+    // 也可以传入定义过的函数作为参数进行调用
+    fmt.Println(apply(pow, 3, 4))
+}
+```
+
+**golang中支持可变长参数列表**
+
+```go
+// 计算所有整形数据的和
+func sum(numbers ...int) int {
+	res := 0
+	for i:= range numbers {
+		res += numbers[i]
+	}
+	return res
+}
+```
+
