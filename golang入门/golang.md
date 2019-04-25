@@ -134,3 +134,42 @@ func enum() {
 
 ```
 
+
+
+### 条件语句
+
+首先在当前目录下简历abc.txt文件
+
+#### if else语句
+
+```go
+func main() {
+    const filename = "abc.txt"
+    // 系统函数ioutil.ReadFile()会返回两个值，文件内容和错误信息
+    contents, err := ioutil.ReadFile(filename)
+    
+    if err != nil {
+        fmt.Println(err)
+    } else {
+        fmt.Printf("%s\n")
+    }
+}
+
+// 当abc.txt未创建时，会打印错误信息：open aabc.txt: The system cannot find the file specified.
+// 当abc.txt创建后，会打印出文件内容信息
+
+// 上面的条件语句也可修改为如下格式
+func main() {
+    const filename = "abc.txt"
+    if contents, err := ioutil.ReadFile(filename); err != nil {
+        fmt.Println(err)
+    } else {
+        fmt.Printf("%s\n")
+    }
+}
+
+// 执行结果同上，但是需要注意，此时contents, err只能在条件语句中使用
+```
+
+#### switch语句
+
