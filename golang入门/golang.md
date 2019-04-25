@@ -436,9 +436,9 @@ func update(arr []int) {
 
 #### 切片的扩展
 
-![1556171155754](C:\Users\hangge\AppData\Roaming\Typora\typora-user-images\1556171155754.png)
+![<https://img-blog.csdnimg.cn/2019042514391284.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODg5Njk5OA==,size_16,color_FFFFFF,t_70>]()
 
-![1556171040142](C:\Users\hangge\AppData\Roaming\Typora\typora-user-images\1556171040142.png)
+![https://img-blog.csdnimg.cn/20190425143930357.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl8zODg5Njk5OA==,size_16,color_FFFFFF,t_70]()
 
 - arr为{0, 1, 2, 3, 4, 5, 6}, s1为{2, 3, 4, 5}, s2为{5, 6}
 - slice可以向后扩展，但是不能向前扩展
