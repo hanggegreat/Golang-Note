@@ -173,3 +173,72 @@ func main() {
 
 #### switch语句
 
+```go
+// 实现一个输入分数，返回对应等级的函数
+// 不同于其他语言的switch语句，golang中的case中不需要写break，会自动跳出
+func grade(score int) string {
+    g := ""
+
+    switch {
+    case score < 0 || score > 100:
+        panic(fmt.Springf("Wrong score: %d", score)) // panic用于报错，会强行终止程序
+    case score < 60:
+        g = "F"
+    case score < 70:
+		g = "D"
+	case score < 80:
+		g = "C"
+	case score < 90:
+		g = "B"
+	default:
+		g = "A"
+	}
+	
+    return g
+}
+```
+
+
+
+### 循环语句
+
+**值得注意的是，golang中只有for语句，没有while语句**
+
+```go
+// 实现一个将10进制int类型数据转换为二进制格式字符串的函数
+func convertToBin(n int) string {
+	if n == 0 {
+		return "0"
+	}
+
+	res := ""
+	for ; n > 0; n >>= 1 {
+        // 因为 n&1是 int类型，需要调用strconv.Itoa()函数，强制转换为string类型
+		res = strconv.Itoa(n&1) + res
+	}
+	return res
+}
+
+// 读取文件
+func printFile(filename string) {
+	file, err := os.Open(filename)
+	if err != nil {
+		panic(err)
+	}
+
+	scanner := bufio.NewScanner(file)
+
+    // 省略初始条件
+	for scanner.Scan() {
+		fmt.Println(scanner.Text())
+	}
+}
+
+// 死循环
+func forever() {
+	for {
+		fmt.Println("abc")
+	}
+}
+```
+
